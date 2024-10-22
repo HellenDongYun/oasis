@@ -1,6 +1,8 @@
 import CabinList from "@/components/CabinList";
 import Spinner from "@/components/Spinner";
 import { Suspense } from "react";
+// 这里写revalidate 这也cabin页面就会在60s 之后更新，重新获取新数据
+//export const revalidate = 60; // revalidate this page every 60 seconds, here can not be a expression like 5*12, is not gonna work
 
 export const metadata = {
   title: "Cabins",

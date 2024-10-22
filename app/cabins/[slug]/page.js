@@ -1,5 +1,6 @@
-import { getCabin } from "@/lib/data-service";
+import { getCabin, getCabins } from "@/lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
+import { unstable_noStore as noStore } from "next/cache";
 import Image from "next/image";
 
 export async function generateMetadata({ params }) {
@@ -11,7 +12,15 @@ export async function generateMetadata({ params }) {
   };
 }
 
+export async function generateStaticParams() {
+  const cabins = await getCabins();
+  const ids = cabins.map((cabin) => ({ cabinId: String(cabin.id) }));
+  return ids;
+}
+
 export default async function Page({ params }) {
+  //一般是写在fetch 函数里， 这里没有 因为直接连的supabase数据库， 也可以以这种方式直接引用这个函数
+  noStore();
   const cabin = await getCabin(params.slug);
   const { id, name, maxCapacity, regularPrice, discount, image, description } =
     cabin;
