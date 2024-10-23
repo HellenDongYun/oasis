@@ -1,5 +1,6 @@
 import CabinList from "@/components/CabinList";
 import Filter from "@/components/Filter";
+import ReservationReminder from "@/components/ReservationReminder";
 import Spinner from "@/components/Spinner";
 import { Suspense } from "react";
 // 这里写revalidate 这也cabin页面就会在60s 之后更新，重新获取新数据
@@ -30,6 +31,7 @@ const CabinsPage = async ({ searchParams }) => {
       </div>
       <Suspense fallback={<Spinner />} key={filter}>
         <CabinList filter={filter} />
+        <ReservationReminder />
       </Suspense>
     </div>
   );
