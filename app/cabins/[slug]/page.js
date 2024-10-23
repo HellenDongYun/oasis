@@ -1,8 +1,11 @@
+import Reservation from "@/components/Reservation";
+import Spinner from "@/components/Spinner";
 import TextExpander from "@/components/TextExpander";
 import { getCabin, getCabins } from "@/lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { unstable_noStore as noStore } from "next/cache";
 import Image from "next/image";
+import { Suspense } from "react";
 
 export async function generateMetadata({ params }) {
   const cabin = await getCabin(params.slug);
@@ -22,10 +25,19 @@ export async function generateStaticParams() {
 export default async function Page({ params }) {
   //一般是写在fetch 函数里， 这里没有 因为直接连的supabase数据库， 也可以以这种方式直接引用这个函数
   noStore();
+  //waterfull style fetching date will slow down the process of data fetching
   const cabin = await getCabin(params.slug);
+  // const settings = await getSettings();
+  // const bookedDates = await getBookedDatesByCabinId(params.cabinId);
+
+  // this is the way to improve waterfull style fetching data
+  // const [cabin, settings, bookedDates] = await Promise.all([
+  //   getCabin(params.slug),
+  //   getSettings(),
+  //   getBookedDatesByCabinId(params.slug),
+  // ]);
   const { id, name, maxCapacity, regularPrice, discount, image, description } =
     cabin;
-
   return (
     <div className="max-w-6xl mx-auto mt-8">
       <div className="grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24">
@@ -73,11 +85,13 @@ export default async function Page({ params }) {
           </ul>
         </div>
       </div>
-
       <div>
-        <h2 className="text-5xl font-semibold text-center">
-          Reserve today. Pay on arrival.
+        <h2 className="text-5xl font-semibold text-center mb-10 text-accent-400">
+          Reserve {name} today. Pay on arrival.
         </h2>
+        <Suspense fallback={<Spinner />}>
+          <Reservation cabin={cabin} />
+        </Suspense>
       </div>
     </div>
   );
