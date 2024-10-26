@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 
-export default async function Navigation() {
+export default async function Navs() {
   //auth function will change this component to a dynamic component
   //this function needs to read cookies form the incoming request
   const session = await auth();
