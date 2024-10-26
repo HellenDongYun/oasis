@@ -2,7 +2,7 @@
 import { updateProfileFormAction } from "@/lib/actions";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
-import { SubmitButton } from "./submitButton";
+import { SubmitButton } from "./SubmitButton";
 export default function UpdateProfileForm({ children, guest }) {
   const [count, setCount] = useState(0);
 
