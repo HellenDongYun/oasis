@@ -3,6 +3,7 @@ import "/globals.css";
 import { Josefin_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import { ReservationProvider } from "@/components/ReservationContext";
+import { Analytics } from "@vercel/analytics/react";
 export const metadata = {
   title: {
     template: "%s The Oasis",
